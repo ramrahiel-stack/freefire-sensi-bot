@@ -214,8 +214,7 @@ async def device_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         keyboard = [
             [InlineKeyboardButton(label, callback_data=f"playstyle:{key}")]
             for key, label in PLAYSTYLES.items()
-        ],
-   ]
+        ]
         await update.message.reply_text(
             f"📱 Device detected: {DEVICES[device]} ✅\n\n"
             "Step 2 of 4 — Select your playstyle:",
