@@ -235,8 +235,6 @@ async def device_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
 
     return DEVICE
 
-}
-
 def generate_sensitivity(device: str, playstyle: str, fps: str, graphics: str = "standard") -> dict:
     base = BASE_SENSITIVITY[device][playstyle]
     multiplier = FPS_MULTIPLIERS[fps] * GRAPHICS_MULTIPLIERS[graphics]
@@ -267,7 +265,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 [InlineKeyboardButton(label, callback_data=f"device:{key}")]
                 for key, label in DEVICES.items()
             ],
-        ]
+            
         text = (
             "🔥 *Free Fire Sensitivity Generator*\n\n"
             "Your saved preferences are shown above — tap to skip ahead to FPS, "
@@ -527,9 +525,13 @@ async def tips_go_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             for key, label in DEVICES.items()
         ]
         text = (
-            "🔥 *Free Fire Sensitivity Generator*\n\n"
-            "Get custom sensitivity settings tuned to your device, playstyle, and FPS.\n\n"
-            "*Step 1 of 4* — Select your device:"
+            text = (
+    "🔥 *Free Fire Sensitivity Generator*\n\n"
+    "Get custom sensitivity settings tuned to your device, playstyle, and FPS.\n\n"
+    "📱 You can tap a button or type your device name.\n"
+    "Example: iPhone 12, Poco X5, Pixel 6a\n\n"
+    "*Step 1 of 4* — Select your device:"
+)
         )
 
     await query.edit_message_text(
@@ -698,8 +700,6 @@ def main() -> None:
     CallbackQueryHandler(use_saved, pattern=r"^use_saved$"),
     CallbackQueryHandler(device_selected, pattern=r"^device:"),
     CallbackQueryHandler(restart_callback, pattern=r"^restart$"),
-
-],
             
             ],
             PLAYSTYLE: [
