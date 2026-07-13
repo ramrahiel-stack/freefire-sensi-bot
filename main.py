@@ -1,6 +1,8 @@
 import os
 import random
 import logging
+from flask import Flask
+from threading import Thread
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application,
@@ -684,6 +686,16 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("Cancelled. Use /start to generate settings or /settings to update preferences.")
     return ConversationHandler.END
 
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+def run_web():
+    app.run(host="0.0.0.0", port=8080)
+
+Thread(target=run_web).start()
 
 def main() -> None:
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
