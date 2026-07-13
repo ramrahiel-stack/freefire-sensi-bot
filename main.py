@@ -214,7 +214,8 @@ async def device_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         keyboard = [
             [InlineKeyboardButton(label, callback_data=f"playstyle:{key}")]
             for key, label in PLAYSTYLES.items()
-        ]
+        ],
+    ]
 
         await update.message.reply_text(
             f"📱 Device detected: {DEVICES[device]} ✅\n\n"
@@ -531,7 +532,7 @@ async def tips_go_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     "📱 You can tap a button or type your device name.\n"
     "Example: iPhone 12, Poco X5, Pixel 6a\n\n"
     "*Step 1 of 4* — Select your device:"
-)
+    
         )
 
     await query.edit_message_text(
@@ -701,7 +702,7 @@ def main() -> None:
     CallbackQueryHandler(device_selected, pattern=r"^device:"),
     CallbackQueryHandler(restart_callback, pattern=r"^restart$"),
             
-            ],
+    ],
             PLAYSTYLE: [
                 CallbackQueryHandler(playstyle_selected, pattern=r"^playstyle:"),
             ],
