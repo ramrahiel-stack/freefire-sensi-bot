@@ -6,8 +6,10 @@ from telegram.ext import (
     Application,
     CommandHandler,
     CallbackQueryHandler,
+    MessageHandler,
     ContextTypes,
     ConversationHandler,
+    filters,
 )
 
 logging.basicConfig(
@@ -24,6 +26,18 @@ DEVICES = {
     "iphone": "📱 iPhone",
     "android": "🤖 Android",
     "tablet": "📟 Tablet",
+}
+
+DEVICE_NAMES = {
+    "iphone 12": "iphone",
+    "iphone 13": "iphone",
+    "iphone 14": "iphone",
+    "iphone 15": "iphone",
+    "poco x5": "android",
+    "pixel 6a": "android",
+    "samsung": "android",
+    "tablet": "tablet",
+    "ipad": "tablet",
 }
 
 PLAYSTYLES = {
@@ -190,6 +204,38 @@ DEEP_TIPS = {
     ),
 }
 
+async def device_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    text = update.message.text.lower().strip()
+
+    if text in DEVICE_NAMES:
+        device = DEVICE_NAMES[text]
+        context.user_data["device"] = device
+
+        keyboard = [
+            [InlineKeyboardButton(label, callback_data=f"playstyle:{key}")]
+            for key, label in PLAYSTYLES.items()
+        ]
+
+        await update.message.reply_text(
+            f"📱 Device detected: {DEVICES[device]} ✅\n\n"
+            "Step 2 of 4 — Select your playstyle:",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+        )
+
+        return PLAYSTYLE
+
+    await update.message.reply_text(
+        "❌ Device not found.\n\n"
+        "Try typing:\n"
+        "iPhone 12\n"
+        "Poco X5\n"
+        "Pixel 6a\n"
+        "Samsung"
+    )
+
+    return DEVICE
+
+}
 
 def generate_sensitivity(device: str, playstyle: str, fps: str, graphics: str = "standard") -> dict:
     base = BASE_SENSITIVITY[device][playstyle]
@@ -647,10 +693,14 @@ def main() -> None:
             CommandHandler("stats", stats),
         ],
         states={
-            DEVICE: [
-                CallbackQueryHandler(use_saved, pattern=r"^use_saved$"),
-                CallbackQueryHandler(device_selected, pattern=r"^device:"),
-                CallbackQueryHandler(restart_callback, pattern=r"^restart$"),
+                DEVICE: [
+    MessageHandler(filters.TEXT & ~filters.COMMAND, device_text),
+    CallbackQueryHandler(use_saved, pattern=r"^use_saved$"),
+    CallbackQueryHandler(device_selected, pattern=r"^device:"),
+    CallbackQueryHandler(restart_callback, pattern=r"^restart$"),
+
+],
+            
             ],
             PLAYSTYLE: [
                 CallbackQueryHandler(playstyle_selected, pattern=r"^playstyle:"),
