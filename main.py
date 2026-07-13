@@ -255,7 +255,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     saved_device, saved_playstyle = get_saved(context)
 
     if saved_device and saved_playstyle:
-        keyboard = [
+                keyboard = [
             [InlineKeyboardButton(
                 f"⚡ Use saved: {DEVICES[saved_device]} · {PLAYSTYLES[saved_playstyle]}",
                 callback_data="use_saved"
@@ -264,12 +264,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 [InlineKeyboardButton(label, callback_data=f"device:{key}")]
                 for key, label in DEVICES.items()
             ],
-            
+        ]
+
         text = (
             "🔥 *Free Fire Sensitivity Generator*\n\n"
             "Your saved preferences are shown above — tap to skip ahead to FPS, "
             "or pick a different device below.\n\n"
             "*Step 1 of 4* — Select your device:"
+            
         )
     else:
         keyboard = [
