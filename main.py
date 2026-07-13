@@ -532,13 +532,11 @@ async def tips_go_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             for key, label in DEVICES.items()
         ]
         text = (
-            text = (
-    "🔥 *Free Fire Sensitivity Generator*\n\n"
-    "Get custom sensitivity settings tuned to your device, playstyle, and FPS.\n\n"
-    "📱 You can tap a button or type your device name.\n"
-    "Example: iPhone 12, Poco X5, Pixel 6a\n\n"
-    "*Step 1 of 4* — Select your device:"
-    
+            "🔥 *Free Fire Sensitivity Generator*\n\n"
+            "Get custom sensitivity settings tuned to your device, playstyle, and FPS.\n\n"
+            "📱 You can tap a button or type your device name.\n"
+            "Example: iPhone 12, Poco X5, Pixel 6a\n\n"
+            "*Step 1 of 4* — Select your device:"
         )
 
     await query.edit_message_text(
