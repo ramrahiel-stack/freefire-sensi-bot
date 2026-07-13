@@ -277,11 +277,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             [InlineKeyboardButton(label, callback_data=f"device:{key}")]
             for key, label in DEVICES.items()
         ]
-        text = (
-            "🔥 *Free Fire Sensitivity Generator*\n\n"
-            "Get custom sensitivity settings tuned to your device, playstyle, and FPS.\n\n"
-            "*Step 1 of 4* — Select your device:"
-        )
 
     await update.message.reply_text(
         text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown"
